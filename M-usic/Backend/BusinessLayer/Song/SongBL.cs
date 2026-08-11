@@ -14,6 +14,7 @@ namespace Backend.BusinessLayer.Song
         public string songId { get; }
         public string coverArtURL { get; }
 
+
         public SongBL(string title, string duration, List<string> artists, string songId, string coverArtURL)
         {
             this.title = title;

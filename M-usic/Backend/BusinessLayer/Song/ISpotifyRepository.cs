@@ -9,7 +9,7 @@ namespace Backend.BusinessLayer.Song
 {
     internal interface ISpotifyRepository
     {
-        Task<Stream> SearchSongsAsync(string query);
+        Task<List<SongBL>> GetSongInfoAsync(string query);
       
     }
 }

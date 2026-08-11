@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Backend.BuisnessLayer.Users;
+using Backend.BusinessLayer.Users;
 
 namespace Backend.ServiceLayer
 {
@@ -26,7 +26,7 @@ namespace Backend.ServiceLayer
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            this.email = user.email;
+            this.email = user.Email;
         }
     }
 }
