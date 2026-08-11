@@ -8,7 +8,7 @@ namespace Backend.BusinessLayer.Song
 {
     internal interface IYoutubeRepository
     {
-        Task<Stream> GetAudioStreamAsync(string songTitleAndArtist);
+        Task<Stream> GetAudioStreamUrlAsync(string songTitleAndArtist);
        
     }
 }

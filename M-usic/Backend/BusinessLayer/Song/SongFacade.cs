@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend.BusinessLayer.Cross_Cutting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,22 @@ namespace Backend.BusinessLayer.Song
     internal class SongFacade
     {
         private Dictionary<string, SongBL> songsCache;
+        private AuthenticationFacade authoFacade;
 
-        public SongFacade()
+        public SongFacade(AuthenticationFacade authFacade)
         {
-            songsCache = new Dictionary<string, SongBL>();
+            this.authoFacade = authFacade;
+            songsCache = new Dictionary<string, SongBL>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        public Task<List<SongBL>> SearchSongs(string query)
+        {
+            throw new NotImplementedException();
+        } 
+
+        public Task<Stream> GetAudioStream(string songId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Backend.Infrastracture
             _ytClient = ytClient;
         }
 
-        public async Task<string?> GetAudioStreamUrlAsync(string songTitleAndArtist)
+        public async Task<Stream> GetAudioStreamUrlAsync(string songTitleAndArtist)
         {
             throw new NotImplementedException();
         }

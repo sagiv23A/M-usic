@@ -19,7 +19,7 @@ namespace Backend.Infrastracture
             _spotifyClient = spotifyClient;
         }
 
-        public async Task<SongBL?> GetSongInfoAsync(string songName)
+        public async Task<List<SongBL>> GetSongInfoAsync(string songName)
         {
            throw new NotImplementedException();
         }
