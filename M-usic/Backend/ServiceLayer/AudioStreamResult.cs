@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,10 @@ namespace Backend.ServiceLayer
             this.streamContent = stream;
             this.contentType = contentType;
             this.contentLength = contentLength;
+        }
+        public AudioStreamResult(Stream stream, string contentType) : this(stream, contentType, 0) 
+        {
+         
         }
     }
 }

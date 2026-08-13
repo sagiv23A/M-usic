@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Backend.BusinessLayer.Song
 {
-    internal interface IYoutubeRepository
+    public interface IYoutubeRepository
     {
-        Task<Stream> GetAudioStreamUrlAsync(string songTitleAndArtist);
+        Task<Stream> GetAudioStreamAsync(string songTitleAndArtist);
        
     }
 }

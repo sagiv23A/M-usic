@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntroSE.Kanban.Backend.BusinessLayer.Exceptions
+namespace Backend.BusinessLayer.Exceptions
 {
     public class MusicException : Exception
     {

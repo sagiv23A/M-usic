@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Backend.BusinessLayer.Song
 {
-    internal interface ISpotifyRepository
+    public interface ISpotifyRepository
     {
-        Task<List<SongBL>> GetSongInfoAsync(string query);
+        Task<IEnumerable<SongBL>> GetSongInfoAsync(string query);
       
     }
 }
