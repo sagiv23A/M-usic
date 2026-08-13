@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.BusinessLayer.Exceptions;
 
 namespace Backend.BusinessLayer.Cross_Cutting
 {
-    internal class AuthenticationFacade
+    public class AuthenticationFacade
     {
         private Dictionary<string, bool> users;
         
@@ -18,27 +19,52 @@ namespace Backend.BusinessLayer.Cross_Cutting
 
         public bool UserIsLoggedIn(string email)
         {
-            throw new NotImplementedException();
+            if (!this.users.ContainsKey(email))
+            {
+                throw new MusicException("This email doesnt exist");
+            }
+            return this.users[email];
         }
 
-        public void Login(string email, string password)
+        public void Login(string email)
         {
-            throw new NotImplementedException();
+            if(email == null) 
+                throw new ArgumentNullException("email");
+            if (!this.users.ContainsKey(email))
+            {
+                throw new MusicException("This email doesnt exist");
+            }
+            if (this.users[email])
+                throw new MusicException("This user is already logged in");
+            users[email] = true;
         }
 
         public bool IsRegisterd(string email) 
         {
-            throw new NotImplementedException();
+            if (!users.ContainsKey(email))
+                throw new MusicException("this user doesnt exist");          
+            return true;   
         }
 
-        public bool Register(string email, string password)
+        public bool Register(string email)
         {
-            throw new NotImplementedException();
+            if (this.users.ContainsKey(email))
+            {
+                throw new MusicException("this user is already exist");
+            }
+            users.Add(email, true);
+            return users[email];
         }
 
         public void Logout(string email) 
         {
-            throw new NotImplementedException();
+            if(!this.users.ContainsKey(email))
+            {
+                throw new MusicException("This email doesnt exist");
+            }
+            if (!this.users[email])
+                throw new MusicException("This user is already logged out");
+            users[email] = false;
         }
 
     }

@@ -1,4 +1,4 @@
-﻿using IntroSE.Kanban.Backend.BusinessLayer.Exceptions;
+﻿using Backend.BusinessLayer.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace Backend.BusinessLayer.Users
     internal class UserBL
     {
         private string email { get; set; }
-        private string password;
+        private string password { get; set; }
 
         internal string Email
         {
@@ -40,13 +40,17 @@ namespace Backend.BusinessLayer.Users
 
         public bool LogIn(string pass)
         {
-            throw new NotImplementedException();
+            if(pass == password)
+            {
+                return true;
+            }
+            else
+            {
+                throw new MusicException("Invalid Password");
+            }
         }
 
-        private bool Logout()
-        {
-            throw new NotImplementedException();
-        }
+     
 
 
         /// <summary>

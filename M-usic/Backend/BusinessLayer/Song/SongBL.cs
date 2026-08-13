@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.BusinessLayer.Song
 {
-    internal class SongBL
+    public class SongBL
     {
         public string title { get; }
         public string duration { get; }

@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace Backend.BusinessLayer.Song
 {
-    internal class SongFacade
+    public class SongFacade
     {
         private Dictionary<string, SongBL> songsCache;
         private AuthenticationFacade authoFacade;
+        private readonly ISpotifyRepository spotifyRepository;
+        private readonly IYoutubeRepository youtubeRepository;
 
         public SongFacade(AuthenticationFacade authFacade)
         {
@@ -18,14 +20,38 @@ namespace Backend.BusinessLayer.Song
             songsCache = new Dictionary<string, SongBL>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public Task<List<SongBL>> SearchSongs(string query)
+        public SongFacade(ISpotifyRepository spotifyRepository, IYoutubeRepository youtubeRepository, AuthenticationFacade authFacade = null)
         {
-            throw new NotImplementedException();
+            if(spotifyRepository == null)
+            {
+                throw new ArgumentNullException(nameof(spotifyRepository));
+            }
+            if (youtubeRepository == null)
+            {
+                throw new ArgumentNullException(nameof(youtubeRepository));
+            }
+            this.spotifyRepository = spotifyRepository;
+            this.youtubeRepository = youtubeRepository;
+            this.authoFacade = authFacade;
+            songsCache = new Dictionary<string, SongBL>(StringComparer.OrdinalIgnoreCase);
+        }   
+
+        public async Task<IEnumerable<SongBL>> SearchSongs(string query)
+        {
+            if(string.IsNullOrWhiteSpace(query))
+            {
+                throw new ArgumentException("Query cannot be null or whitespace.", nameof(query));
+            }
+            return await spotifyRepository.GetSongInfoAsync(query);
         } 
 
-        public Task<Stream> GetAudioStream(string songId)
+        public async Task<Stream> GetAudioStream(string songId)
         {
-            throw new NotImplementedException();
+            if(string.IsNullOrWhiteSpace(songId))
+            {
+                throw new ArgumentException("Song ID cannot be null or whitespace.", nameof(songId));
+            }
+            return await youtubeRepository.GetAudioStreamAsync(songId);
         }
     }
 }
