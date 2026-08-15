@@ -7,7 +7,7 @@ using Backend.BusinessLayer.Users;
 
 namespace Backend.ServiceLayer
 {
-    internal class UserSL
+    public class UserSL
     {
         public string email { get; }
         public string userId { get; }
@@ -20,7 +20,7 @@ namespace Backend.ServiceLayer
         {
 
         }
-        public UserSL(UserBL user)
+        internal UserSL(UserBL user)
         {
             if (user == null)
             {

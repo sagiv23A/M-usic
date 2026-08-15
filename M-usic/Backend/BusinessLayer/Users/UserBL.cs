@@ -1,4 +1,5 @@
 ﻿using Backend.BusinessLayer.Exceptions;
+using Backend.DataAccesLayer.Dto_s;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Backend.BusinessLayer.Users
     {
         private string email { get; set; }
         private string password { get; set; }
+        private UserDto userDto { get; }
 
         internal string Email
         {
@@ -32,10 +34,26 @@ namespace Backend.BusinessLayer.Users
                 password = value;
             }
         }
+        internal UserDto UserDto
+        {
+            get => userDto;
+        }
         public UserBL(string email, string password)
         {
+            userDto = new UserDto(email, password);
             Email = email;
             Password = password;
+            UserDto.Insert();
+        }
+        internal UserBL(UserDto userDto)
+        {
+            if(userDto == null)
+            {
+                throw new MusicException("UserDto can't be null");
+            }
+            this.userDto = userDto;
+            this.email = userDto.Email;
+            this.password = userDto.Password;
         }
 
         public bool LogIn(string pass)

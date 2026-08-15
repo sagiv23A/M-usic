@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Backend.ServiceLayer
 {
-    internal class SongSL
+    public class SongSL
     {
         public string title { get; }
         public string duration { get; }
@@ -25,7 +25,7 @@ namespace Backend.ServiceLayer
         }
         public SongSL() { }
 
-        public SongSL(SongBL songBL)
+        internal SongSL(SongBL songBL)
         {
             this.title = songBL.title;
             this.duration = songBL.duration;

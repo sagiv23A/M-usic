@@ -1,5 +1,8 @@
 ﻿using Backend.BusinessLayer.Cross_Cutting;
 using Backend.BusinessLayer.Exceptions;
+using Backend.DataAccesLayer.Controllers;
+using Backend.DataAccesLayer.Dto_s;
+using Backend.ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +65,34 @@ namespace Backend.BusinessLayer.Users
             users.Add(email, newUser);
             authFacade.Register(email);
             return newUser;
+        }
+        /// <summary>
+        /// Loads all users from the database into the system's memory.
+        /// </summary>
+        /// <precondition>There is no precondition.</precondition>
+        /// <postcondition>The local users dictionary and authentication facade are populated with all users currently stored in the database.</postcondition>
+        internal void SelectAllUsers()
+        {
+            UserController uc = new UserController();
+            List<UserDto> allUsers = uc.SelectAllUsers();
+            foreach (UserDto user in allUsers)
+            {
+                UserBL userbl = new UserBL(user);
+                users.Add(user.Email, userbl);
+                authFacade.AddUser(user.Email);
+            }
+        }
+        /// <summary>
+        /// Deletes all users from the system's memory and the database.
+        /// </summary>
+        /// <precondition>There is no precondition.</precondition>
+        /// <postcondition>All users are permanently removed from the database, the memory dictionary, and the authentication facade.</postcondition>
+        internal void DeleteAllUsers()
+        {
+            UserController uc = new UserController();
+            uc.DeleteAllUsers();
+            users.Clear();
+            authFacade.DeleteAllUser();
         }
 
         /// <summary>
