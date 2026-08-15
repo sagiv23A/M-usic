@@ -21,7 +21,17 @@ namespace Backend.ServiceLayer
         private UserService US;
         private SongService SS;
 
-        
+
+        public UserService User
+        {
+            get => US;
+        }
+
+        public SongService Song
+        {
+            get => SS;
+        }
+
         public FacadeFactory()
         {
             var logRepository = LogManager.GetRepository(Assembly.GetExecutingAssembly());

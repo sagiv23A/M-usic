@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Backend.ServiceLayer
 {
-    internal class AudioStreamResult
+    public class AudioStreamResult
     {
         public Stream streamContent;
         public string contentType;

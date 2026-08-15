@@ -12,7 +12,11 @@
     <PackageReference Include="System.Data.SQLite" Version="2.0.4" />
     <PackageReference Include="YoutubeExplode" Version="6.6.1" />
   </ItemGroup>
-
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>BackendTests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
   <ItemGroup>
     <None Update="Music.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

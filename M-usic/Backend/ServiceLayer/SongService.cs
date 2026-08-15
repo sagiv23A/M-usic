@@ -7,10 +7,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Backend.BusinessLayer.Exceptions;
 
 namespace Backend.ServiceLayer
 {
-    internal class SongService
+    public class SongService
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -62,6 +63,63 @@ namespace Backend.ServiceLayer
             {
                 log.Error($"Error fetching audio stream for '{songTitleAndArtist}': {ex.Message}");
                 return null;
+            }
+        }
+        /// <summary>
+        /// Loads all users from the persistence layer.
+        /// </summary>
+        /// <returns>An empty response if successful, otherwise an error response.</returns>
+        /// <precondition> None. </precondition>
+        /// <postcondition> All users are loaded into the system state. </postcondition>
+        public string LoadData()
+        {
+            log.Info("Attempting to load all users");
+            Response res = null;
+            try
+            {
+                sf.SelectAllSongs();
+                res = new Response(null, null);
+                log.Info("all users loaded successfully.");
+                return JsonSerializer.Serialize(res);
+            }
+            catch (MusicException kex)
+            {
+                log.Warn("Failed to load all users. Reason: " + kex.Message);
+                return ErrResponse(kex.Message);
+            }
+            catch (Exception err)
+            {
+                log.Error("Failed to load all users. Reason: " + err.Message);
+                return ErrResponse(err.Message);
+            }
+        }
+
+        /// <summary>
+        /// Deletes all user data from the system.
+        /// </summary>
+        /// <returns>An empty response if successful, otherwise an error response.</returns>
+        /// <precondition> None. </precondition>
+        /// <postcondition> All user data is cleared. </postcondition>
+        public string DeleteData()
+        {
+            log.Info("Attempting to delete all users");
+            Response res = null;
+            try
+            {
+                sf.DeleteAllSongs();
+                res = new Response(null, null);
+                log.Info("all users deleted successfully.");
+                return JsonSerializer.Serialize(res);
+            }
+            catch (MusicException kex)
+            {
+                log.Warn("Failed to delete all users. Reason: " + kex.Message);
+                return ErrResponse(kex.Message);
+            }
+            catch (Exception err)
+            {
+                log.Error("Failed to delete all users. Reason: " + err.Message);
+                return ErrResponse(err.Message);
             }
         }
 

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Backend.ServiceLayer
 {
-    internal class UserService
+    public class UserService
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -118,6 +118,65 @@ namespace Backend.ServiceLayer
                 return ErrResponse(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Loads all users from the persistence layer.
+        /// </summary>
+        /// <returns>An empty response if successful, otherwise an error response.</returns>
+        /// <precondition> None. </precondition>
+        /// <postcondition> All users are loaded into the system state. </postcondition>
+        public string LoadData()
+        {
+            log.Info("Attempting to load all users");
+            Response res = null;
+            try
+            {
+                uf.SelectAllUsers();
+                res = new Response(null, null);
+                log.Info("all users loaded successfully.");
+                return JsonSerializer.Serialize(res);
+            }
+            catch (MusicException kex)
+            {
+                log.Warn("Failed to load all users. Reason: " + kex.Message);
+                return ErrResponse(kex.Message);
+            }
+            catch (Exception err)
+            {
+                log.Error("Failed to load all users. Reason: " + err.Message);
+                return ErrResponse(err.Message);
+            }
+        }
+
+        /// <summary>
+        /// Deletes all user data from the system.
+        /// </summary>
+        /// <returns>An empty response if successful, otherwise an error response.</returns>
+        /// <precondition> None. </precondition>
+        /// <postcondition> All user data is cleared. </postcondition>
+        public string DeleteData()
+        {
+            log.Info("Attempting to delete all users");
+            Response res = null;
+            try
+            {
+                uf.DeleteAllUsers();
+                res = new Response(null, null);
+                log.Info("all users deleted successfully.");
+                return JsonSerializer.Serialize(res);
+            }
+            catch (MusicException kex)
+            {
+                log.Warn("Failed to delete all users. Reason: " + kex.Message);
+                return ErrResponse(kex.Message);
+            }
+            catch (Exception err)
+            {
+                log.Error("Failed to delete all users. Reason: " + err.Message);
+                return ErrResponse(err.Message);
+            }
+        }
+
         private string ErrResponse(string errMessage)
         {
             Response errorR = new Response(errMessage, null);

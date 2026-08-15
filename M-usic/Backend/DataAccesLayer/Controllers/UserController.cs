@@ -15,26 +15,26 @@ namespace Backend.DataAccesLayer.Controllers
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private const string UsersTableName = "Users";
-        private readonly string connectionString;
-        private readonly string tableName;
+        private readonly string _connectionString;
+        private readonly string _tableName;
 
         public UserController()
         {
             string path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "Music.db"));
-            this.connectionString = $"Data Source={path}; Version=3; BusyTimeout=5000;";
-            this.tableName = UsersTableName;
+            this._connectionString = $"Data Source={path}; Version=3; BusyTimeout=5000;";
+            this._tableName = UsersTableName;
         }
 
         internal bool Insert(UserDto user)
         {
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
                 int res = -1;
                 try
                 {
                     connection.Open();
-                    command.CommandText = $"INSERT INTO {tableName} ({UserDto.UserEmail} ,{UserDto.UserPassword}) " +
+                    command.CommandText = $"INSERT INTO {_tableName} ({UserDto.UserEmail} ,{UserDto.UserPassword}) " +
                         $"VALUES (@emailVal,@passWordVal);";
 
                     SQLiteParameter idParam = new SQLiteParameter(@"emailVal", user.Email);
@@ -61,13 +61,13 @@ namespace Backend.DataAccesLayer.Controllers
         internal bool Delete(UserDto user) {
             int res = -1;
 
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteParameter idParam = new SQLiteParameter(@"emailVal", user.Email);
                 SQLiteCommand command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"delete from {tableName} where [{UserDto.UserEmail}]=@emailVal"
+                    CommandText = $"delete from {_tableName} where [{UserDto.UserEmail}]=@emailVal"
                 };
                 try
                 {
@@ -93,13 +93,13 @@ namespace Backend.DataAccesLayer.Controllers
         internal bool Update(string email, string attributeName, string attributeValue)
         {
             int res = -1;
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteParameter idParam = new SQLiteParameter("@emailVal", email);
                 SQLiteCommand command = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"update {tableName} set [{attributeName}]=@{attributeName} where [{UserDto.UserEmail}] = @emailVal"
+                    CommandText = $"update {_tableName} set [{attributeName}]=@{attributeName} where [{UserDto.UserEmail}] = @emailVal"
                 };
                 try
                 {
@@ -131,10 +131,10 @@ namespace Backend.DataAccesLayer.Controllers
         internal List<UserDto> SelectAllUsers()
         {
             List<UserDto> results = new List<UserDto>();
-            using (var connection = new SQLiteConnection(connectionString))
+            using (var connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(null, connection);
-                command.CommandText = $"select * from {tableName};";
+                command.CommandText = $"select * from {_tableName};";
 
                 try
                 {
@@ -171,14 +171,14 @@ namespace Backend.DataAccesLayer.Controllers
         {
             int res = -1;
 
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand enableFKCommand = new SQLiteCommand("PRAGMA foreign_keys = ON;", connection);
 
                 SQLiteCommand deleteCommand = new SQLiteCommand
                 {
                     Connection = connection,
-                    CommandText = $"delete from {tableName};"
+                    CommandText = $"delete from {_tableName};"
                 };
 
                 try
